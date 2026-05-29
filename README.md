@@ -43,7 +43,7 @@ docker run -d \
   --restart unless-stopped \
   -e GITHUB_REPO=your-org/your-repo \
   -e RUNNER_TOKEN=<registration-token> \
-  -e ANTHROPIC_API_KEY=<your-api-key> \
+  -e CLAUDE_CODE_OAUTH_TOKEN=<your-oauth-token> \
   -e GH_TOKEN=<github-pat> \
   -e RUNNER_LABELS=claude \
   -v claude-memory:/home/runner/.claude \
@@ -62,7 +62,7 @@ services:
     environment:
       GITHUB_REPO: your-org/your-repo
       RUNNER_TOKEN: ${RUNNER_TOKEN}
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN}
       GH_TOKEN: ${GH_TOKEN}
       RUNNER_NAME: claude-runner   # optional
       RUNNER_LABELS: claude         # optional, for runs-on targeting
