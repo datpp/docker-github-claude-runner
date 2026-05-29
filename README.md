@@ -126,13 +126,11 @@ jobs:
 |---|---|---|
 | `GITHUB_REPO` | Yes | Target repo in `owner/repo` format |
 | `RUNNER_TOKEN` | Yes | Short-lived registration token from GitHub |
-| `ANTHROPIC_API_KEY` | Yes* | Anthropic API key — never expires, recommended for long-lived runners |
-| `CLAUDE_CODE_OAUTH_TOKEN` | Yes* | Claude OAuth session token — alternative to API key |
+| `ANTHROPIC_API_KEY` | One of these | Anthropic API key — never expires, recommended for long-lived runners |
+| `CLAUDE_CODE_OAUTH_TOKEN` | One of these | Claude OAuth session token — alternative to API key |
 | `GH_TOKEN` | No | GitHub PAT — enables `gh` CLI in workflows |
 | `RUNNER_NAME` | No | Runner display name (default: `claude-runner`) |
 | `RUNNER_LABELS` | No | Comma-separated labels for `runs-on` targeting (e.g. `claude,gpu`) |
-
-\* One of `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN` is required.
 
 ## Persisting Claude memory
 
