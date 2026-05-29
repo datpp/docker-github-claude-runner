@@ -25,11 +25,13 @@ if [ -n "${CLAUDE_CODE_OAUTH_TOKEN}" ]; then
 
   cat > /home/runner/.config/claude/config.json <<EOF
 {
-  "oauth_token": "${CLAUDE_CODE_OAUTH_TOKEN}"
+  "claudeAiOauth": "${CLAUDE_CODE_OAUTH_TOKEN}"
 }
 EOF
 
   chmod 600 /home/runner/.config/claude/config.json
+elif [ -n "${ANTHROPIC_API_KEY}" ]; then
+  echo "Using ANTHROPIC_API_KEY for Claude authentication..."
 fi
 
 # -----------------------------------------------------------------------------
@@ -51,6 +53,7 @@ if [ ! -f /actions-runner/.runner ]; then
     --url "https://github.com/${GITHUB_REPO}" \
     --token "${RUNNER_TOKEN}" \
     --name "${RUNNER_NAME:-claude-runner}" \
+    ${RUNNER_LABELS:+--labels "${RUNNER_LABELS}"} \
     --unattended \
     --replace
 fi

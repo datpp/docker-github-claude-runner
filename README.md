@@ -45,6 +45,7 @@ docker run -d \
   -e RUNNER_TOKEN=<registration-token> \
   -e ANTHROPIC_API_KEY=<your-api-key> \
   -e GH_TOKEN=<github-pat> \
+  -e RUNNER_LABELS=claude \
   -v claude-memory:/home/runner/.claude \
   datpp/github-claude-runner
 ```
@@ -64,6 +65,7 @@ services:
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
       GH_TOKEN: ${GH_TOKEN}
       RUNNER_NAME: claude-runner   # optional
+      RUNNER_LABELS: claude         # optional, for runs-on targeting
 
 volumes:
   claude-memory:
@@ -75,7 +77,7 @@ Go to **Settings → Actions → Runners** — you should see `claude-runner` wi
 
 ## Using Claude in a workflow
 
-Target the runner with `runs-on: [self-hosted]` and call `claude` with `--print` and `--dangerously-skip-permissions` for non-interactive use:
+Set `RUNNER_LABELS=claude` when starting the container, then use `runs-on: [self-hosted, claude]` to target it. Call `claude` with `--print` and `--dangerously-skip-permissions` for non-interactive use:
 
 ```yaml
 name: Claude Agent
@@ -89,7 +91,7 @@ on:
 
 jobs:
   agent:
-    runs-on: [self-hosted]
+    runs-on: [self-hosted, claude]
     steps:
       - uses: actions/checkout@v4
 
@@ -109,7 +111,7 @@ on:
 jobs:
   agent:
     if: github.event.label.name == 'claude'
-    runs-on: [self-hosted]
+    runs-on: [self-hosted, claude]
     steps:
       - uses: actions/checkout@v4
       - name: Run Claude agent
@@ -124,10 +126,11 @@ jobs:
 |---|---|---|
 | `GITHUB_REPO` | Yes | Target repo in `owner/repo` format |
 | `RUNNER_TOKEN` | Yes | Short-lived registration token from GitHub |
-| `ANTHROPIC_API_KEY` | Yes* | Anthropic API key for Claude Code |
-| `CLAUDE_CODE_OAUTH_TOKEN` | Yes* | Alternative to API key, personal OAuth session |
+| `ANTHROPIC_API_KEY` | Yes* | Anthropic API key — never expires, recommended for long-lived runners |
+| `CLAUDE_CODE_OAUTH_TOKEN` | Yes* | Claude OAuth session token — alternative to API key |
 | `GH_TOKEN` | No | GitHub PAT — enables `gh` CLI in workflows |
 | `RUNNER_NAME` | No | Runner display name (default: `claude-runner`) |
+| `RUNNER_LABELS` | No | Comma-separated labels for `runs-on` targeting (e.g. `claude,gpu`) |
 
 \* One of `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN` is required.
 
@@ -140,22 +143,6 @@ Mount a volume to `/home/runner/.claude` to keep Claude's memory and settings ac
 ```
 
 Project-level memory (`.claude/` in the repo) is preserved automatically if you commit it to your repository.
-
-## Adding a custom runner label
-
-To target only this runner instead of all self-hosted runners, add `--labels` to the `config.sh` call in `entrypoint.sh`:
-
-```bash
-./config.sh \
-  --url "https://github.com/${GITHUB_REPO}" \
-  --token "${RUNNER_TOKEN}" \
-  --name "${RUNNER_NAME:-claude-runner}" \
-  --labels "claude" \
-  --unattended \
-  --replace
-```
-
-Then use `runs-on: [self-hosted, claude]` in your workflows.
 
 ## Security
 

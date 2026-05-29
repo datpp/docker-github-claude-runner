@@ -64,6 +64,7 @@ RUN mkdir -p \
     && chown -R runner:runner /opt/claude /home/runner/.config /home/runner/.claude
 
 ENV CLAUDE_SKILLS_DIR=/opt/claude/skills
+ENV RUNNER_LABELS=""
 
 COPY entrypoint.sh /entrypoint.sh
 
