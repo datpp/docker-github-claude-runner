@@ -39,11 +39,13 @@ RUN mkdir -p -m 755 /etc/apt/keyrings && \
 # GitHub Runner
 # -----------------------------------------------------------------------------
 ARG RUNNER_VERSION=2.328.0
+ARG TARGETARCH
 
-RUN mkdir -p /actions-runner && \
+RUN ARCH=$([ "$TARGETARCH" = "arm64" ] && echo "arm64" || echo "x64") && \
+    mkdir -p /actions-runner && \
     cd /actions-runner && \
     curl -o actions-runner.tar.gz -L \
-      https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz && \
+      https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${ARCH}-${RUNNER_VERSION}.tar.gz && \
     tar xzf actions-runner.tar.gz && \
     rm actions-runner.tar.gz
 
