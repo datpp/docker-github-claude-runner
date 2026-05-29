@@ -63,7 +63,8 @@ RUN mkdir -p \
     /opt/claude/skills \
     /home/runner/.config/claude \
     /home/runner/.claude \
-    /home/runner/.npm-global \
+    /home/runner/.npm-global/bin \
+    /home/runner/.npm-global/lib/node_modules \
     && chown -R runner:runner /opt/claude /home/runner/.config /home/runner/.claude /home/runner/.npm-global
 
 ENV CLAUDE_SKILLS_DIR=/opt/claude/skills
