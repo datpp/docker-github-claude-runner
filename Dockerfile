@@ -57,21 +57,21 @@ RUN useradd -m runner && \
     echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # -----------------------------------------------------------------------------
+# Claude Code
+# -----------------------------------------------------------------------------
+RUN npm install -g @anthropic-ai/claude-code@latest
+
+# -----------------------------------------------------------------------------
 # Claude setup
 # -----------------------------------------------------------------------------
 RUN mkdir -p \
     /opt/claude/skills \
     /home/runner/.config/claude \
     /home/runner/.claude \
-    /home/runner/.npm-global/bin \
-    /home/runner/.npm-global/lib/node_modules \
-    /home/runner/.npm \
     && chown -R runner:runner \
     /opt/claude \
     /home/runner/.config \
-    /home/runner/.claude \
-    /home/runner/.npm-global \
-    /home/runner/.npm
+    /home/runner/.claude
 
 ENV CLAUDE_SKILLS_DIR=/opt/claude/skills
 ENV RUNNER_LABELS=""
@@ -81,10 +81,6 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 USER runner
-
-RUN npm config set prefix '/home/runner/.npm-global'
-
-ENV PATH=/home/runner/.npm-global/bin:$PATH
 
 WORKDIR /home/runner
 

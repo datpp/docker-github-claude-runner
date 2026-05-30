@@ -2,15 +2,7 @@
 
 set -e
 
-# -----------------------------------------------------------------------------
-# Install/update Claude Code
-# -----------------------------------------------------------------------------
-echo "Installing/updating Claude Code..."
-
-npm install -g @anthropic-ai/claude-code@latest
-
-echo "Claude version:"
-claude --version || true
+echo "Claude version: $(claude --version)"
 
 # -----------------------------------------------------------------------------
 # Claude OAuth token

@@ -11,11 +11,11 @@ datpp/github-claude-runner
 ## How it works
 
 On startup the container:
-1. Installs the latest `@anthropic-ai/claude-code` from npm
-2. Writes the Claude OAuth token to the runner's config
-3. Authenticates the GitHub CLI (optional)
-4. Registers itself as a self-hosted runner against your repo
-5. Starts listening for jobs
+1. Writes the Claude OAuth token to the runner's config
+2. Registers itself as a self-hosted runner against your repo
+3. Starts listening for jobs
+
+Claude Code is installed at image build time (as root) so there are no runtime permission issues. To get a newer version of Claude Code, pull the latest image tag.
 
 ## Prerequisites
 
