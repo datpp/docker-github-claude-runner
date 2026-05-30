@@ -65,7 +65,13 @@ RUN mkdir -p \
     /home/runner/.claude \
     /home/runner/.npm-global/bin \
     /home/runner/.npm-global/lib/node_modules \
-    && chown -R runner:runner /opt/claude /home/runner/.config /home/runner/.claude /home/runner/.npm-global
+    /home/runner/.npm \
+    && chown -R runner:runner \
+    /opt/claude \
+    /home/runner/.config \
+    /home/runner/.claude \
+    /home/runner/.npm-global \
+    /home/runner/.npm
 
 ENV CLAUDE_SKILLS_DIR=/opt/claude/skills
 ENV RUNNER_LABELS=""
